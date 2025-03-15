@@ -8,6 +8,6 @@ A simple web-based quiz application where users can answer questions in differen
 - *Database:* SQLite  
 
 ## 🚀 How to Run the Project  
-1. Clone the repository:  
+1. *Clone the repository*  
    ```sh
    git clone https://github.com/osmannkasadha/quiz-app.git
