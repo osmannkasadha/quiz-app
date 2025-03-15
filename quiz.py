@@ -46,7 +46,7 @@ def run_quiz():
     print(f"\n🎯 Your final score is {score}/{len(questions)}!")
 
 # Start quiz
-if _name_ == "_main_":
+if __name__ == "__main__":
     print("\n🎉 Welcome to the Quiz App! 🎉")
     print("You have 10 seconds to answer each question. Good luck!\n")
     run_quiz()
