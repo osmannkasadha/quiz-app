@@ -1,0 +1,17 @@
+[
+  {
+    "question": "What is the capital of France?",
+    "options": ["Berlin", "Paris", "Madrid", "Rome"],
+    "answer": "Paris"
+  },
+  {
+    "question": "Who developed Python?",
+    "options": ["Linus Torvalds", "Bill Gates", "Guido van Rossum", "Mark Zuckerberg"],
+    "answer": "Guido van Rossum"
+  },
+  {
+    "question": "What is 5 + 7?",
+    "options": ["10", "12", "14", "15"],
+    "answer": "12"
+  }
+]
