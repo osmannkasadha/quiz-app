@@ -1,52 +1,53 @@
 import json
 import random
-import time
+import threading
+import sys
 
 # Load questions from JSON file
 def load_questions():
     with open("questions.json", "r") as file:
         return json.load(file)
 
-# Function to ask questions
-def ask_question(question_data):
-    print(f"\n{question_data['question']}")
-    for idx, option in enumerate(question_data["options"], start=1):
-        print(f"{idx}. {option}")
+# Function to handle user input with a timer
+def get_user_input(timeout):
+    user_answer = [None]
+    
+    def input_with_timeout():
+        user_answer[0] = input("Your answer: ")
 
-    start_time = time.time()  # Start timer
-    answer = input("Your answer (1-4): ")
-    elapsed_time = time.time() - start_time  # Calculate response time
+    thread = threading.Thread(target=input_with_timeout)
+    thread.start()
+    thread.join(timeout)
 
-    if elapsed_time > 10:  # 10 seconds limit
-        print("⏳ Time's up! ❌")
-        return False
+    if thread.is_alive():
+        print("\n⏳ Time's up! Moving to the next question.")
+        thread.join()  # Ensure the thread stops
+        return None  # No input was given
+    return user_answer[0]
 
-    try:
-        selected_option = int(answer) - 1
-        if question_data["options"][selected_option] == question_data["answer"]:
+# Ask questions with a timer
+def ask_questions(questions):
+    score = 0
+
+    for question in questions:
+        print("\n" + question["question"])
+        for i, option in enumerate(question["options"], start=1):
+            print(f"{i}. {option}")
+
+        user_answer = get_user_input(10)  # 10-second timer
+
+        if user_answer is None:
+            print(f"❌ The correct answer was: {question['answer']}")
+        elif user_answer.lower() == question["answer"].lower():
             print("✅ Correct!")
-            return True
+            score += 1
         else:
-            print(f"❌ Wrong! The correct answer is: {question_data['answer']}")
-            return False
-    except (ValueError, IndexError):
-        print("⚠ Invalid input! Answer should be 1, 2, 3, or 4.")
-        return False
+            print(f"❌ Wrong! The correct answer is: {question['answer']}")
 
-# Main function to run the quiz
-def run_quiz():
+    print(f"\nYour final score is {score}/{len(questions)}!")
+
+# Main function
+if __name__ == "__main__":
     questions = load_questions()
     random.shuffle(questions)  # Shuffle questions
-
-    score = 0
-    for question in questions:
-        if ask_question(question):
-            score += 1
-
-    print(f"\n🎯 Your final score is {score}/{len(questions)}!")
-
-# Start quiz
-if __name__ == "__main__":
-    print("\n🎉 Welcome to the Quiz App! 🎉")
-    print("You have 10 seconds to answer each question. Good luck!\n")
-    run_quiz()
+    ask_questions(questions)
