@@ -1,53 +1,69 @@
 import json
 import random
-import threading
-import sys
 
 # Load questions from JSON file
 def load_questions():
     with open("questions.json", "r") as file:
         return json.load(file)
 
-# Function to handle user input with a timer
-def get_user_input(timeout):
-    user_answer = [None]
-    
-    def input_with_timeout():
-        user_answer[0] = input("Your answer: ")
+# Save leaderboard scores to JSON file
+def update_leaderboard(player_name, score):
+    try:
+        with open("leaderboard.json", "r") as file:
+            leaderboard = json.load(file)
+    except FileNotFoundError:
+        leaderboard = {}
 
-    thread = threading.Thread(target=input_with_timeout)
-    thread.start()
-    thread.join(timeout)
+    leaderboard[player_name] = score
 
-    if thread.is_alive():
-        print("\n⏳ Time's up! Moving to the next question.")
-        thread.join()  # Ensure the thread stops
-        return None  # No input was given
-    return user_answer[0]
+    with open("leaderboard.json", "w") as file:
+        json.dump(leaderboard, file, indent=4)
 
-# Ask questions with a timer
-def ask_questions(questions):
-    score = 0
+# Display leaderboard
+def display_leaderboard():
+    try:
+        with open("leaderboard.json", "r") as file:
+            leaderboard = json.load(file)
+            print("\n🏆 Leaderboard:")
+            for player, score in sorted(leaderboard.items(), key=lambda x: x[1], reverse=True):
+                print(f"{player}: {score}")
+    except FileNotFoundError:
+        print("\n🏆 Leaderboard is empty.")
+
+# Main function to run the quiz
+def run_quiz():
+    questions = load_questions()
+    random.shuffle(questions)  # Shuffle questions for variation
+
+    score = 0  # Initialize score
+
+    print("\n🎉 Welcome to the Quiz App! 🎉\n")
 
     for question in questions:
-        print("\n" + question["question"])
-        for i, option in enumerate(question["options"], start=1):
-            print(f"{i}. {option}")
+        print(question["question"])
+        for index, option in enumerate(question["options"], start=1):
+            print(f"{index}. {option}")
 
-        user_answer = get_user_input(10)  # 10-second timer
+        answer = input("\nYour answer (enter the number): ")
 
-        if user_answer is None:
-            print(f"❌ The correct answer was: {question['answer']}")
-        elif user_answer.lower() == question["answer"].lower():
-            print("✅ Correct!")
-            score += 1
-        else:
-            print(f"❌ Wrong! The correct answer is: {question['answer']}")
+        # Validate user input and check answer
+        try:
+            answer_index = int(answer) - 1
+            if question["options"][answer_index].lower() == question["answer"].lower():
+                print("✅ Correct!\n")
+                score += 1
+            else:
+                print(f"❌ Wrong! The correct answer is: {question['answer']}\n")
+        except (ValueError, IndexError):
+            print("⚠ Invalid input! Please enter a valid option number.\n")
 
-    print(f"\nYour final score is {score}/{len(questions)}!")
+    print(f"\n📊 Your final score is {score}/{len(questions)}!")
 
-# Main function
+    # Update and display leaderboard
+    player_name = input("\nEnter your name for the leaderboard: ")
+    update_leaderboard(player_name, score)
+    display_leaderboard()
+
+# Ensure script runs only when executed directly
 if __name__ == "__main__":
-    questions = load_questions()
-    random.shuffle(questions)  # Shuffle questions
-    ask_questions(questions)
+    run_quiz()
