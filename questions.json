@@ -1,17 +1,52 @@
 [
-  {
-    "question": "What is the capital of France?",
-    "options": ["Berlin", "Paris", "Madrid", "Rome"],
-    "answer": "Paris"
-  },
-  {
-    "question": "Who developed Python?",
-    "options": ["Linus Torvalds", "Bill Gates", "Guido van Rossum", "Mark Zuckerberg"],
-    "answer": "Guido van Rossum"
-  },
-  {
-    "question": "What is 5 + 7?",
-    "options": ["10", "12", "14", "15"],
-    "answer": "12"
-  }
+    {
+        "question": "What is the capital of France?",
+        "options": ["Berlin", "Paris", "Madrid", "Rome"],
+        "answer": "Paris"
+    },
+    {
+        "question": "Who developed Python?",
+        "options": ["Linus Torvalds", "Bill Gates", "Guido van Rossum", "Mark Zuckerberg"],
+        "answer": "Guido van Rossum"
+    },
+    {
+        "question": "What is 5 + 7?",
+        "options": ["10", "12", "14", "15"],
+        "answer": "12"
+    },
+    {
+        "question": "What is the largest planet in our Solar System?",
+        "options": ["Earth", "Mars", "Jupiter", "Venus"],
+        "answer": "Jupiter"
+    },
+    {
+        "question": "Which programming language is mainly used for web development?",
+        "options": ["C++", "Java", "JavaScript", "Swift"],
+        "answer": "JavaScript"
+    },
+    {
+        "question": "What year was Python created?",
+        "options": ["1989", "1991", "1995", "2000"],
+        "answer": "1991"
+    },
+    {
+        "question": "Who is known as the father of computers?",
+        "options": ["Alan Turing", "Charles Babbage", "Ada Lovelace", "Tim Berners-Lee"],
+        "answer": "Charles Babbage"
+    },
+    {
+        "question": "What is the square root of 64?",
+        "options": ["6", "7", "8", "9"],
+        "answer": "8"
+    },
+    {
+        "question": "Which company developed the Windows OS?",
+        "options": ["Apple", "IBM", "Google", "Microsoft"],
+        "answer": "Microsoft"
+    },
+    {
+        "question": "What does CPU stand for?",
+        "options": ["Central Processing Unit", "Computer Personal Unit", "Central Personal Unit", "Control Processing Unit"],
+        "answer": "Central Processing Unit"
+    }
 ]
